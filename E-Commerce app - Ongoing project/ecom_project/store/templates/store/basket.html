@@ -1,0 +1,42 @@
+{% extends "store/base.html" %}
+{% block title %}My Basket{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">My Basket</h1>
+
+{% if items %}
+<table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+    <thead class="bg-indigo-50">
+        <tr>
+            <th class="py-2 px-4 text-left">Product</th>
+            <th class="py-2 px-4 text-left">Quantity</th>
+            <th class="py-2 px-4 text-left">Price</th>
+            <th class="py-2 px-4 text-left">Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="border-t">
+            <td class="py-2 px-4">{{ item.product.name }}</td>
+            <td class="py-2 px-4">{{ item.quantity }}</td>
+            <td class="py-2 px-4">${{ item.product.price }}</td>
+            <td class="py-2 px-4">${{ item.line_total|floatformat:2 }}</td>
+            <td class="py-2 px-4">
+                <form method="post" action="{% url 'basket_remove' item.id %}">
+                    {% csrf_token %}
+                    <button class="text-red-600 hover:text-red-800">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-6 flex justify-between items-center">
+    <p class="text-lg font-semibold">Total: <span class="text-indigo-600">${{ total|floatformat:2 }}</span></p>
+    <a href="{% url 'checkout' %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Proceed to Checkout</a>
+</div>
+{% else %}
+<p class="text-gray-600">Your basket is empty.</p>
+{% endif %}
+{% endblock %}

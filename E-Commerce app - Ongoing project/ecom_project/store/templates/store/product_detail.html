@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto mt-10">
+
+    <!-- Back to Store -->
+    <a href="{% url 'store_detail' product.store.id %}"
+       class="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold mb-6">
+        ← Back to {{ product.store.name }}
+    </a>
+
+    <!-- Product Card -->
+    <div class="bg-white shadow-lg rounded-xl p-6 flex flex-col md:flex-row gap-6">
+
+        <!-- Product Image -->
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                 class="w-full md:w-1/3 h-64 object-cover rounded-lg shadow-md">
+        {% else %}
+            <div class="w-full md:w-1/3 h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                <span class="text-gray-500">No Image</span>
+            </div>
+        {% endif %}
+
+        <!-- Product Details -->
+        <div class="flex-1">
+
+            <!-- Product Name -->
+            <h1 class="text-3xl font-bold mb-3">{{ product.name }}</h1>
+
+            <!-- Vendor Information -->
+            <div class="flex items-center gap-3 mb-5">
+
+                <!-- Optional vendor avatar placeholder-->
+                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                    <span class="text-gray-700 font-bold">
+                        {{ product.store.owner.username|first|upper }}
+                    </span>
+                </div>
+
+                <div class="text-gray-700">
+                    <p class="font-semibold">Sold by: {{ product.store.owner.username }}</p>
+                    <p class="text-sm">
+                        Store: 
+                        <a href="{% url 'store_detail' product.store.id %}"
+                           class="text-blue-600 hover:text-blue-700">
+                            {{ product.store.name }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <p class="text-gray-600 mb-4">
+                {{ product.description }}
+            </p>
+
+            <!-- Price -->
+            <p class="text-xl font-semibold mb-6">
+                £{{ product.price }}
+            </p>
+
+            <!-- Add to Cart Button -->
+            <form action="{% url 'add_to_cart' product.id %}" method="post">
+                {% csrf_token %}
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                    Add to Basket
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<hr>
+
+<h2>Vendor: {{vendor.name}}</h2>
+<!--creates a list of other stores the current store owner has-->
+{% if vendor_stores %}
+    <p>Vendor has {{ vendor_stores.count }} store{{ vendor_stores.count|pluralize }}:</p>
+    <ul>
+        {% for s in vendor_stores %}
+        <li><a href="{% url 'product_detail' p.store.id p.id %}"></a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<hr>
+<!--displays a list of other products the current store owner sells-->
+<h3>Other products from {{ vendor.name }}</h3>
+{% if other_products %}
+    <ul>
+        {% for p in other_products %}
+            <li>
+                <a href="{% url 'product_detail' p.store.id p.id %}">
+                    {{ p.name }} - £{{ p.price }}
+                </a>
+                <br>
+                <small>From store: {{ p.store.name }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+<!--or displays a message saying they have no other products for sale-->
+{% else %}
+    <p>This vendor has no other products.</p>
+{% endif %}
+{% endblock %}

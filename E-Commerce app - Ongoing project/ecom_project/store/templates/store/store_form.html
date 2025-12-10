@@ -1,0 +1,20 @@
+{% extends "store/base.html" %}
+{% block title %}{{ form_title|default:"Create Store" }}{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+    <h1 class="text-2xl font-semibold mb-4 text-center">{{ form_title|default:"Create Store" }}</h1>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Store Name</label>
+            {{ form.name }}
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Description</label>
+            {{ form.description }}
+        </div>
+        <button class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">Save Store</button>
+    </form>
+</div>
+{% endblock %}

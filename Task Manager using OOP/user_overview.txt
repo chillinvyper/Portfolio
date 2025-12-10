@@ -1,0 +1,11 @@
+===== USER OVERVIEW =====
+Total users: 1
+Total tasks: 1
+
+  User: admin
+  Total tasks assigned: 1
+  % of all tasks assigned: 100.00%
+  % completed: 0.00%
+  % incomplete: 100.00%
+  % overdue: 100.00%
+

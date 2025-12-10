@@ -1,0 +1,29 @@
+{% extends "store/base.html" %}
+{% block title %}Order #{{ order.id }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Order #{{ order.id }}</h1>
+
+<p class="mb-2 text-gray-600">Placed on {{ order.created_at|date:'M d, Y H:i' }}</p>
+<p class="mb-6 font-medium">Total: <span class="text-indigo-600">${{ order.total }}</span></p>
+
+<table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+    <thead class="bg-indigo-50">
+        <tr>
+            <th class="py-2 px-3 text-left text-sm font-semibold">Product</th>
+            <th class="py-2 px-3 text-left text-sm font-semibold">Quantity</th>
+            <th class="py-2 px-3 text-left text-sm font-semibold">Price</th>
+            <th class="py-2 px-3 text-left text-sm font-semibold">Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="border-t">
+            <td class="py-2 px-3">{{ item.product_name }}</td>
+            <td class="py-2 px-3">{{ item.quantity }}</td>
+            <td class="py-2 px-3">${{ item.price }}</td>
+            <td class="py-2 px-3">${{ item.quantity|floatformat:2|add:item.price }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

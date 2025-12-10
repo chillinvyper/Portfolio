@@ -1,0 +1,12 @@
+{% extends "store/base.html" %}
+{% block title %}Add Product{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+  <h1 class="text-2xl font-semibold mb-4 text-center">Add Product to {{ store.name }}</h1>
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">Save Product</button>
+  </form>
+</div>
+{% endblock %}

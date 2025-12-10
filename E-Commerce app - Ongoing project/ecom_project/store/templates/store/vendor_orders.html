@@ -1,0 +1,30 @@
+{% extends "store/base.html" %}
+{% block title %}My Sales{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">My Product Sales</h1>
+
+{% if sold_products %}
+<div class="overflow-x-auto">
+<table class="min-w-full bg-white shadow rounded-lg">
+    <thead class="bg-indigo-50">
+        <tr>
+            <th class="py-2 px-4 text-left font-semibold">Product</th>
+            <th class="py-2 px-4 text-left font-semibold">Units Sold</th>
+            <th class="py-2 px-4 text-left font-semibold">Total Revenue</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in sold_products %}
+        <tr class="border-t">
+            <td class="py-2 px-4">{{ product.product_name }}</td>
+            <td class="py-2 px-4">{{ product.total_sold }}</td>
+            <td class="py-2 px-4 text-indigo-600">${{ product.total_revenue|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p class="text-gray-600">No sales yet.</p>
+{% endif %}
+{% endblock %}
