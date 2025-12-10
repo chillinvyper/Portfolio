@@ -371,6 +371,10 @@ def generate_reports():
         uncompleted_tasks / total_tasks * 100) if total_tasks else 0
     percent_overdue = (overdue_tasks / total_tasks * 100) if total_tasks else 0
 
+    # Removes the previous creation of the report file
+    if os.path.exists('task_overview.txt'):
+        os.remove('task_overview.txt')
+
     # Write task_overview.txt
     with open("task_overview.txt", "w", encoding="utf-8") as f:
         f.write("===== TASK OVERVIEW =====\n")
@@ -383,6 +387,10 @@ def generate_reports():
 
     # === USER OVERVIEW ===
     total_users = len(username_password.keys())
+
+    # Removes the previous creation of the report file
+    if os.path.exists('user_overview.txt'):
+        os.remove('user_overview.txt')
 
     with open("user_overview.txt", "w", encoding="utf-8") as f:
         f.write("===== USER OVERVIEW =====\n")
