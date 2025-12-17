@@ -9,17 +9,15 @@ class User(AbstractUser):
     ROLE_CHOICES = [(VENDOR, 'Vendor'), (SHOPPER, 'Shopper')]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=SHOPPER)
 
-
     def is_vendor(self):
         return self.role == self.VENDOR
-
 
     def is_shopper(self):
         return self.role == self.SHOPPER
 
 
 class Store(models.Model):
-    owner = models.ForeignKey('User', on_delete=models.CASCADE, related_name='stores')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='stores')
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     slug = models.SlugField(unique=False, blank=True)

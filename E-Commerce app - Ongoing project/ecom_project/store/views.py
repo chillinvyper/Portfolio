@@ -297,7 +297,7 @@ def product_detail(request, store_id, product_id):
     # get all products from all of the vendors stores, excluding the
     # current product
     other_products = Product.objects.filter(
-        store_in=owner.stores).exclude(id=product.id)
+        store__owner=owner.stores).exclude(id=product.id)
 
     context = {
         'product': product,
