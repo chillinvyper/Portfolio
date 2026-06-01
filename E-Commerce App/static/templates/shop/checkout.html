@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel narrow">
+    <P class="eyebrow">Checkout</P>
+    <h1>Confirm your order.</h1>
+    <div class="list">
+        {% for item in items %}
+            <div class="list-row">
+                <div>
+                    <strong>{{ item.product.name }}</strong>
+                    <span class="muted">
+                        {{ item.quantity }} * {{ item.product.price }}
+                    </span>
+                </div>
+                <strong>£{{ item.line_total }}</strong>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="basket-total">
+        <span>Total</span>
+        <strong>£{{ total }}</strong>
+    </div>
+    <form method="post">
+        {% csrg_token %}
+        <button type="submit">Confirm Checkout</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-title">
+    <div>
+        <p class="eyebrow">Vendor Tools</p>
+        <h1>Your Dashboard</h1>
+    </div>
+    <div class="actions">
+        <a class="button-link" href="{% url 'store_create' %}">Create New Store</a>
+        <a class="button-link secondary" href="{% url 'product_create' %}">Create New Product</a>
+    </div>
+</div>
+{% for store in stores %}
+    <section class="panel">
+        <div class="split">
+            <div>
+                <h2>{{ store.name }}</h2>
+                <p>{{ store.description|default:'Not description provided' }}</p>
+            </div>
+            <div class="actions">
+                <a href="{% url 'store_update' store.pk %}">Edit Store</a>
+                <a class="danger" href="{% url 'store_delete' store.pk %}">Delete Store</a>
+            </div>
+        </div>
+        <h3>Products</h3>
+        <div class="list">
+            {% for product in store.products.all %}
+            <div class="list-row">
+                <div>
+                    <strong>{{ product.name }}</strong>
+                    <span class="muted">£{{ product.price }} | Stock: {{ product.stock }}</span>
+                </div>
+                <div class="actions">
+                    <a href="{% url 'product_update' product.pk %}">Edit Product Details</a>
+                    <a class="danger" href="{% url 'product_delete' product.pk %}"> Delete Product</a>
+                </div>
+            </div>
+            {% empty %}
+                <p class="muted">No Products Yet</p>
+            {% endfor %}
+        </div>
+    </section>
+{% empty %}
+    <section class="panel">
+        <h2>No Stores Yet</h2>
+        <p>Create a store first, then add products to it.</p>
+    </section>
+{% endfor %}
+{% endblock %}

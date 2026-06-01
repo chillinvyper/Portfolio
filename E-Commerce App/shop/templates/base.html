@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>E-commerce Night Marketplace App</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'shop/style.css' %}">
+    </head>
+    <body>
+        <header class="site-header">
+            <a class="brand" href="{% url 'home' %}">Night Market</a>
+            <nav class="nav">
+                <a href="{% url 'home' %}">Stores</a>
+                {% if user.is_authenticated %}
+                    {% if user.userprofile.role == 'vendor' %}
+                        <a href="{% url 'vendor_dashboard' %}">Dashboard</a>
+                        <a href="{% url 'store_create' %}">New Store</a>
+                        <a href="{% url 'product_create' %}">New Product</a>
+                    {% elif user.userprofile.role == 'shopper' %}
+                        <a href="{% url 'basket_detail' %}">Basket</a>
+                    {% endif %}
+                    <form class="logout-form" method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Log In</a>
+                    <a class="button-link" href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
+            </nav>
+        </header>
+        <main class="Container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message}}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

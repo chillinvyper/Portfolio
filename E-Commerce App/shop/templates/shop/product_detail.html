@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel product_detail">
+    <p class="eyebrow">{{ product.store.name }}</p>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description|default:'No description provided.' }}</p>
+    <div class="product-meta large">
+        <span>£{{ product.price }}</span>
+        <span>{{ product.stock }} in stock</span>
+    </div>
+    {% if user.is_authenticated and user.userprofile.role == 'shopper' %}
+        <form method="post" action="{% url 'basket_add' product.pk %}">
+            {% csrf_token %}
+            <button type="submit">Add to basket</button>
+        </form>
+    {% elif not user.is_authenticated %}
+        <p class="muted">Log in as a shopper to purchase products.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Independent stores, in one night market</p>
+        <h1>Browse the Night Market</h1>
+        <p>discover vendor run shops, curated products and a simple checkout system</p>
+    </div>
+</section>
+<section class="grid">
+    {% for store in stores %}
+        <article class="card">
+            <h2>
+                <a href="{% url 'store_detail' store.pk %}">
+                    {{ store.name }}
+                </a>
+            </h2>
+            <p>{{ store.description|default:'No description provided.' }}</p>
+            <p class="muted">
+                {{ store.products.count }} product{{ store.products.count|pluralize }}
+            </p>
+        </article>
+    {% empty %}
+        <article class="panel">
+            <h2>No stores yet</h2>
+            <p>Vendors can create their first stores from the Vendors dashboard</p>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel-narrow">
+    <h1>Delete Product</h1>
+    <p>Are you sure you wish to delete <strong>{{ product.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="danger-button" type="submit">Delete Product</button>
+        <a href="{% url 'vendor_dashboard' %}">Cancel</a>
+    </form>
+</section>
+{% endblock %}
